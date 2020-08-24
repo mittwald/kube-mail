@@ -26,3 +26,21 @@ jobs:
           node-version: "12.x"
       - run: npm ci
       - run: npm run test
+
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - uses: engineerd/setup-kind@v0.4.0
+      - name: Testing
+        run: |
+          kubectl cluster-info
+          kubectl get pods -n kube-system
+
+          kind get kubeconfig > ./kind-kubeconfig
+      - name: Setup CRDs
+        run: |
+          kubectl create -f kubernetes/crd.yaml
