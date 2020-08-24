@@ -14,7 +14,7 @@
     "@types/jest": "^22.2.3",
     "@types/mongodb": "^3.5.26",
     "@types/node": "11",
-    "@types/nodemailer": "^4.6.7",
+    "@types/nodemailer": "^4.6.8",
     "@types/protobufjs": "^5.0.31",
     "@types/smtp-server": "^3.5.4",
     "@types/uuid": "^3.4.4",
@@ -44,7 +44,7 @@
     "js-yaml": "^3.11.0",
     "mailparser": "^2.5.0",
     "mongodb": "^3.6.0",
-    "nodemailer": "^4.6.4",
+    "nodemailer": "^4.7.0",
     "smtp-server": "^3.7.0",
     "uuid": "^3.3.2"
   },
