@@ -8,7 +8,7 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "@types/config": "^0.0.34",
-    "@types/elasticsearch": "^5.0.23",
+    "@types/elasticsearch": "^5.0.36",
     "@types/express": "^4.17.7",
     "@types/google-protobuf": "^3.2.7",
     "@types/jest": "^22.2.3",
@@ -35,7 +35,7 @@
     "@mittwald/kubernetes": "^3.2.1",
     "config": "^1.30.0",
     "debug": "^3.1.0",
-    "elasticsearch": "^15.4.1",
+    "elasticsearch": "^15.5.0",
     "email-addresses": "^3.0.3",
     "express": "^4.17.1",
     "google-protobuf": "^3.6.0",
