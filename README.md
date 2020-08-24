@@ -9,7 +9,7 @@
 
 <hr>
 
-kube-mail is a policy-based SMTP server designed for running in a Kubernetes cluster. It is configurable using Kubernetes Custom Resources and allows you to define policies for outgoing emails based on Pod labels (much like NetworkPolicies).
+kube-mail is a policy-based SMTP server designed for running in a Kubernetes cluster. It is configurable using Kubernetes Custom Resources and allows you to define policies for outgoing emails based on Pod labels (much like [NetworkPolicies](https://kubernetes.io/docs/concepts/services-networking/network-policies/)).
 
 ## Table of Contents
 
@@ -66,7 +66,7 @@ spec:
 
 ### `EmailPolicy` resources
 
-An `EmailPolicy` defines what kube-mail should to with mails received from a certain pod. An email policy may be configured to do one of two things:
+An `EmailPolicy` defines what kube-mail should do with mails received from a certain pod. An email policy may be configured to do one of two things:
 
 - forward the received email to one of the SMTP servers configured using the `SMTPServer` resources
 - store the email in its internal database for later retrieval (useful for development environments that should _not_ actually send emails out into the world).
