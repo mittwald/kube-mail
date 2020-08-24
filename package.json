@@ -31,7 +31,7 @@
     "generate": "mkdir -p dist/grpc && ./node_modules/.bin/grpc_tools_node_protoc --js_out=import_style=commonjs,binary:dist/grpc --grpc_out=dist/grpc --plugin=\"protoc-gen-ts=./node_modules/.bin/protoc-gen-ts\" --ts_out=src/grpc proto/service.proto"
   },
   "dependencies": {
-    "@mittwald/kubernetes": "^3.0.0",
+    "@mittwald/kubernetes": "^3.2.1",
     "@types/mailparser": "^2.4.0",
     "config": "^1.30.0",
     "debug": "^3.1.0",
