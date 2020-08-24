@@ -14,6 +14,12 @@ spec:
       labels:
         app: {{ template "chart.name" . }}
         release: {{ .Release.Name }}
+      {{- if .Values.prometheus.enabled }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: 9100
+        prometheus.io/path: "/metrics"
+      {{- end }}
     spec:
       {{- if .Values.rbac.enabled }}
       serviceAccountName: {{ template "chart.fullname" . }}
