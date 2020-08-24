@@ -1,7 +1,7 @@
 import {SMTPServerAuthentication, SMTPServerAuthenticationResponse, SMTPServerSession} from "smtp-server";
 import {Readable} from "stream";
 import {Policy, PolicyProvider} from "./policy/provider";
-import {Parser, Sink} from "./sink/interface";
+import {Parser} from "./sink/interface";
 import {readStreamIntoBuffer} from "./util";
 import {SMTPUpstream} from "./upstream/smtp";
 import {StatisticsRecorder} from "./stats/recorder";
@@ -17,7 +17,6 @@ export class SMTPBackend {
     public constructor(private policyProvider: PolicyProvider,
                        private parser: Parser,
                        private recorder: StatisticsRecorder,
-                       private sink: Sink,
                        private upstream: SMTPUpstream) {
     }
 
@@ -63,19 +62,8 @@ export class SMTPBackend {
             // noinspection JSIgnoredPromiseFromCall
             this.recorder.observe(policy, mailFrom.address, rcptTo.map(r => r.address));
 
-            if (policy.type === "catch") {
-                const msg = await this.parser.parseMessage(session, buf);
-
-                msg.remoteAddress = remoteAddress;
-
-                debug("parsed message: %O", msg);
-
-                callback();
-                await this.sink.storeMessage(policy.sourceReference, msg, policy);
-            } else {
-                await this.upstream.forward(policy, envelope, buf);
-                callback();
-            }
+            await this.upstream.forward(policy, envelope, buf);
+            callback();
         } catch (err) {
             callback(err);
         }

@@ -4,6 +4,8 @@ import {PodStore} from "../k8s/pod_store";
 import {SMTPServer} from "../k8s/types/v1alpha1/smtpserver";
 import {Secret} from "@mittwald/kubernetes/types/core/v1";
 import {Store} from "../k8s/store";
+import {ObjectMeta} from "@mittwald/kubernetes/types/meta/v1";
+import {MetadataObject} from "@mittwald/kubernetes/types/meta";
 
 const debug = require("debug")("policy:k8s");
 
@@ -74,15 +76,6 @@ export class KubernetesPolicyProvider implements PolicyProvider {
 
         debug("policy found: %o", policy.metadata.name);
 
-        if ("catch" in spec.sink) {
-            return {
-                type: "catch",
-                id: policy.metadata.namespace + "/" + policy.metadata.name,
-                sourceReference,
-                retention: spec.sink.catch.retentionDays,
-            };
-        }
-
         if ("smtp" in spec.sink) {
             const {smtp} = spec.sink;
 
@@ -105,10 +98,10 @@ export class KubernetesPolicyProvider implements PolicyProvider {
             const {data: secretData = {}} = smtpSecret;
 
             const forwardPolicy: ForwardPolicy = {
-                type: "forward",
-                id: policy.metadata.namespace + "/" + policy.metadata.name,
+                id: objectMetaToString(policy),
                 sourceReference,
                 smtp: {
+                    name: objectMetaToString(smtpServer),
                     server: smtpServer.spec.server,
                     port: smtpServer.spec.port || 587,
                     auth: {
@@ -132,5 +125,8 @@ export class KubernetesPolicyProvider implements PolicyProvider {
 
         return undefined;
     }
+}
 
+function objectMetaToString(o: MetadataObject): string {
+    return `${o.metadata.namespace}/${o.metadata.name}`;
 }
