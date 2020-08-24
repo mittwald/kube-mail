@@ -75,13 +75,14 @@ spec:
       properties:
         spec:
           required: ["server"]
-          server:
-            type: string
-          port:
-            type: number
-            minimum: 1
-          tls:
-            type: boolean
-          authType:
-            type: string
-            enum: ["PLAIN", "LOGIN", "CRAM-MD5", "SCRAM-SHA-1"]
+          properties:
+            server:
+              type: string
+            port:
+              type: number
+              minimum: 1
+            tls:
+              type: boolean
+            authType:
+              type: string
+              enum: ["PLAIN", "LOGIN", "CRAM-MD5", "SCRAM-SHA-1"]
