@@ -6,7 +6,7 @@ export type SMTPSink = {
         name: string;
         namespace?: string;
     };
-    credentials: {
+    credentials?: {
         name: string;
         namespace?: string;
     };

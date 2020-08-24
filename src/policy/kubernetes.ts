@@ -80,22 +80,11 @@ export class KubernetesPolicyProvider implements PolicyProvider {
             const {smtp} = spec.sink;
 
             const smtpServerNamespace = smtp.server.namespace || policy.metadata.namespace || "";
-            const smtpSecretNamespace = smtp.credentials.namespace || policy.metadata.namespace || "";
-
-            const [smtpServer, smtpSecret] = await Promise.all([
-                this.smtpServerStore.get(smtpServerNamespace, smtp.server.name),
-                this.secretStore.get(smtpSecretNamespace, smtp.credentials.name)
-            ]);
+            const smtpServer = await this.smtpServerStore.get(smtpServerNamespace, smtp.server.name);
 
             if (!smtpServer) {
                 return undefined;
             }
-
-            if (!smtpSecret) {
-                return undefined;
-            }
-
-            const {data: secretData = {}} = smtpSecret;
 
             const forwardPolicy: ForwardPolicy = {
                 id: objectMetaToString(policy),
@@ -104,14 +93,26 @@ export class KubernetesPolicyProvider implements PolicyProvider {
                     name: objectMetaToString(smtpServer),
                     server: smtpServer.spec.server,
                     port: smtpServer.spec.port || 587,
-                    auth: {
-                        method: smtpServer.spec.authType || "PLAIN",
-                        username: new Buffer(secretData["username"], "base64").toString("utf-8"),
-                        password: new Buffer(secretData["password"], "base64").toString("utf-8"),
-                    },
                     tls: smtpServer.spec.tls === undefined ? true : smtpServer.spec.tls,
                 },
             };
+
+            if (smtp.credentials) {
+                const smtpSecretNamespace = smtp.credentials.namespace || policy.metadata.namespace || "";
+                const smtpSecret = await this.secretStore.get(smtpSecretNamespace, smtp.credentials.name);
+
+                if (!smtpSecret) {
+                    return undefined;
+                }
+
+                const {data: secretData = {}} = smtpSecret;
+
+                forwardPolicy.smtp.auth = {
+                    method: smtpServer.spec.authType || "PLAIN",
+                    username: new Buffer(secretData["username"], "base64").toString("utf-8"),
+                    password: new Buffer(secretData["password"], "base64").toString("utf-8"),
+                };
+            }
 
             if (spec.ratelimiting) {
                 forwardPolicy.ratelimit = {
