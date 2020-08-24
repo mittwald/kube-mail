@@ -8,16 +8,6 @@ image:
   pullPolicy: Always
 rbac:
   enabled: true
-grpc:
-  enabled: true
-  service:
-    externalPort: 8080
-    internalPort: 8081
-rest:
-  enabled: true
-  service:
-    externalPort: 80
-    internalPort: 8080
 smtp:
   service:
     externalPort: 25
@@ -25,8 +15,6 @@ smtp:
 service:
   name: kube-mail
   type: ClusterIP
-mongodb:
-  replicas: 1
 watcher:
   emailPolicyInformer:
     selector: {}
