@@ -23,7 +23,6 @@ kube-mail is a policy-based SMTP server designed for running in a Kubernetes clu
 - [Custom Resources](#custom-resources)
   - [`SMTPServer` resources](#smtpserver-resources)
   - [`EmailPolicy` resources](#emailpolicy-resources)
-- [APIs](#apis)
 - [Sending mails from within a Pod](#sending-mails-from-within-a-pod)
   - [PHP and ssmtp](#php-and-ssmtp)
 
@@ -66,10 +65,7 @@ spec:
 
 ### `EmailPolicy` resources
 
-An `EmailPolicy` defines what kube-mail should do with mails received from a certain pod. An email policy may be configured to do one of two things:
-
-- forward the received email to one of the SMTP servers configured using the `SMTPServer` resources
-- store the email in its internal database for later retrieval (useful for development environments that should _not_ actually send emails out into the world).
+An `EmailPolicy` defines what kube-mail should do with mails received from a certain pod. An email policy will forward the received email to one of the SMTP servers configured using the `SMTPServer` resources.
 
 A forwarding email policy is defined like follows:
 
@@ -113,12 +109,6 @@ Concerning the individual properties:
     </dl>
   </dd>
 </dl>
-
-## APIs
-
-As noted, kube-mail may be configured to NOT forward received emails, but to store them in its internal database instead. This is useful for development environments that should not be allowed to send emails out into the world.
-
-To interact with these intercepted emails, kube-mail offers a gRPC API to retrieve them. This gRPC service is described in [`./proto/service.proto`](./proto/service.proto). Use one of the [gRPC client libraries](https://grpc.io/docs/languages/) to build your own client.
 
 ## Sending mails from within a Pod
 
