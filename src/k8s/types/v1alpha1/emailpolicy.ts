@@ -12,10 +12,6 @@ export type SMTPSink = {
     };
 }
 
-export type CatchSink = {
-    retentionDays?: number;
-}
-
 export type EmailPolicySpec = {
     default?: boolean;
     podSelector?: LabelSelector;
@@ -23,7 +19,7 @@ export type EmailPolicySpec = {
         maximum: number;
         period?: "hour" | "minute";
     };
-    sink: {smtp: SMTPSink} | {catch: CatchSink};
+    sink: {smtp: SMTPSink};
 };
 
 export type EmailPolicy = MetadataObject & {
