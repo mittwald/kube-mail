@@ -1,6 +1,5 @@
 import {SMTPServer} from "smtp-server";
 import {SMTPBackend} from "./backend";
-import {ParserImpl} from "./sink/parser";
 import {SMTPUpstream} from "./upstream/smtp";
 import {register} from "prom-client";
 import * as config from "config";
@@ -13,8 +12,6 @@ import {PrometheusRecorder} from "./stats/recorder";
 console.log("starting");
 
 (async () => {
-    const parser = new ParserImpl();
-
     const api = buildKubernetesClientFromConfig(config.get<PolicyConfig>("policy"), register);
 
     const providerFactory = new KubernetesPolicyProviderFactory(api);
@@ -22,7 +19,7 @@ console.log("starting");
 
     const recorder = new PrometheusRecorder(register);
     const upstream = new SMTPUpstream();
-    const backend = new SMTPBackend(provider, parser, recorder, upstream);
+    const backend = new SMTPBackend(provider, recorder, upstream);
 
     const smtpServer = new SMTPServer({
         authOptional: true,

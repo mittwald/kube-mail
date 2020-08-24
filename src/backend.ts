@@ -1,7 +1,6 @@
 import {SMTPServerAuthentication, SMTPServerAuthenticationResponse, SMTPServerSession} from "smtp-server";
 import {Readable} from "stream";
 import {Policy, PolicyProvider} from "./policy/provider";
-import {Parser} from "./sink/interface";
 import {readStreamIntoBuffer} from "./util";
 import {SMTPUpstream} from "./upstream/smtp";
 import {StatisticsRecorder} from "./stats/recorder";
@@ -15,7 +14,6 @@ export interface ExtendedSMTPServerSession extends SMTPServerSession {
 export class SMTPBackend {
 
     public constructor(private policyProvider: PolicyProvider,
-                       private parser: Parser,
                        private recorder: StatisticsRecorder,
                        private upstream: SMTPUpstream) {
     }
