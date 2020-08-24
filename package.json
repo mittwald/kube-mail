@@ -14,7 +14,7 @@
     "@types/jest": "^22.2.3",
     "@types/mailparser": "^2.7.3",
     "@types/mongodb": "^3.5.26",
-    "@types/node": "11",
+    "@types/node": "12",
     "@types/nodemailer": "^4.6.8",
     "@types/protobufjs": "^5.0.31",
     "@types/smtp-server": "^3.5.4",
