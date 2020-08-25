@@ -43,4 +43,4 @@ jobs:
           kind get kubeconfig > ./kind-kubeconfig
       - name: Setup CRDs
         run: |
-          kubectl create -f kubernetes/crd.yaml
+          kubectl create -f kubernetes
