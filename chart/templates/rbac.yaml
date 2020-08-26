@@ -2,7 +2,7 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "chart.fullname" . }}:policies
+  name: {{ template "chart.fullname" . }}-policies
   labels:
     app.kubernetes.io/name: {{ template "chart.name" . }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -26,7 +26,7 @@ rules:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "chart.fullname" . }}:podwatcher
+  name: {{ template "chart.fullname" . }}-podwatcher
   labels:
     app.kubernetes.io/name: {{ template "chart.name" . }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -57,7 +57,7 @@ metadata:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "chart.fullname" . }}:podwatcher
+  name: {{ template "chart.fullname" . }}-podwatcher
   labels:
     app.kubernetes.io/name: {{ template "chart.name" . }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -69,13 +69,13 @@ subjects:
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ template "chart.fullname" . }}:podwatcher
+  name: {{ template "chart.fullname" . }}-podwatcher
   apiGroup: rbac.authorization.k8s.io
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "chart.fullname" . }}:policies
+  name: {{ template "chart.fullname" . }}-policies
   labels:
     app.kubernetes.io/name: {{ template "chart.name" . }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -87,6 +87,6 @@ subjects:
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ template "chart.fullname" . }}:policies
+  name: {{ template "chart.fullname" . }}-policies
   apiGroup: rbac.authorization.k8s.io
 {{- end }}
