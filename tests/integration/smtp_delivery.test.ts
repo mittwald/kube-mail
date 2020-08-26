@@ -53,7 +53,7 @@ describe("SMTP delivery", () => {
             metadata: {
                 generateName: "tester-",
                 labels,
-            },
+            } as any as ObjectMeta,
             spec: {
                 restartPolicy: "Never",
                 containers: [{
