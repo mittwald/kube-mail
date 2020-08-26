@@ -35,6 +35,7 @@ jobs:
         with:
           node-version: "12.x"
       - uses: engineerd/setup-kind@v0.4.0
+      - run: npm ci
       - name: Testing
         run: |
           kubectl cluster-info
