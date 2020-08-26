@@ -41,6 +41,22 @@ jobs:
           kubectl get pods -n kube-system
 
           kind get kubeconfig > ./kind-kubeconfig
-      - name: Setup CRDs
+      - name: Build and load image
         run: |
-          kubectl create -f kubernetes
+          docker build -t kube-mail .
+          kind load docker-image kube-mail
+      - name: Setup Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+      - name: Install kube-mail in KinD
+        run: |
+          helm install --set image.repository=kube-mail --set image.pullPolicy=Never kube-mail ./chart
+      - name: Run tests
+        run: |
+          POD_NAME=$(kubectl get po -l app.kubernetes.io/name=kube-mail -o=jsonpath='{.items[0].metadata.name}')
+          kubectl apply -f tests/integration/setup
+
+          kubectl port-forward upstream 8080:8080 &
+          kubectl port-forward $POD_NAME 9100:9100 &
+
+          npm run tests:integration
