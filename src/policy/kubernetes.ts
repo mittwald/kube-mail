@@ -88,9 +88,13 @@ export class KubernetesPolicyProvider implements PolicyProvider {
 
             const forwardPolicy: ForwardPolicy = {
                 id: objectMetaToString(policy),
+                namespace: policy.metadata.namespace!,
+                name: policy.metadata.name,
                 sourceReference,
                 smtp: {
-                    name: objectMetaToString(smtpServer),
+                    id: objectMetaToString(smtpServer),
+                    namespace: smtpServer.metadata.namespace!,
+                    name: smtpServer.metadata.name,
                     server: smtpServer.spec.server,
                     port: smtpServer.spec.port || 587,
                     tls: smtpServer.spec.tls === undefined ? true : smtpServer.spec.tls,

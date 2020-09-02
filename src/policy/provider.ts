@@ -8,13 +8,17 @@ export type SourceReference = {
 
 export type ForwardPolicy = {
     id: string;
+    namespace: string;
+    name: string;
     sourceReference: SourceReference;
     ratelimit?: {
         maximum: number;
         limitPeriod: "hour" | "minute";
     };
     smtp: {
+        id: string;
         name: string;
+        namespace: string;
         server: string;
         port: number;
         tls?: boolean;

@@ -11,7 +11,7 @@ export class PrometheusRecorder implements StatisticsRecorder {
         this.messageCount = new Counter({
             name: "kubemail_received_emails",
             help: "amount of received emails",
-            labelNames: ["pod_namespace", "pod_name", "policy", "server"],
+            labelNames: ["pod_namespace", "pod_name", "policy_namespace", "policy_name", "server_namespace", "server_name"],
             registers: [register],
         });
         this.rejectedCount = new Counter({
@@ -29,17 +29,31 @@ export class PrometheusRecorder implements StatisticsRecorder {
         this.errorCount = new Counter({
             name: "kubemail_forward_errors",
             help: "amount of errors while forwarding emails to upstream SMTP servers",
-            labelNames: ["pod_namespace", "pod_name", "policy", "server"],
+            labelNames: ["pod_namespace", "pod_name", "policy_namespace", "policy_name", "server_namespace", "server_name"],
             registers: [register],
         });
     }
 
     public async observeSent(policy: Policy, sender: string, recipients: string[]): Promise<void> {
-        this.messageCount.labels(policy.sourceReference.namespace, policy.sourceReference.podName, policy.id, policy.smtp.name).inc(recipients.length);
+        this.messageCount.labels(
+            policy.sourceReference.namespace,
+            policy.sourceReference.podName,
+            policy.namespace,
+            policy.name,
+            policy.smtp.namespace,
+            policy.smtp.name,
+        ).inc(recipients.length);
     }
 
     public async observeError(policy: Policy, sender: string): Promise<void> {
-        this.errorCount.labels(policy.sourceReference.namespace, policy.sourceReference.podName, policy.id, policy.smtp.name).inc(1);
+        this.errorCount.labels(
+            policy.sourceReference.namespace,
+            policy.sourceReference.podName,
+            policy.namespace,
+            policy.name,
+            policy.smtp.namespace,
+            policy.smtp.name
+        ).inc(1);
     }
 
     public async observeRejectedNoPolicy(podNamespace: string | undefined, podName: string | undefined): Promise<void> {
