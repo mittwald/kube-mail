@@ -38,7 +38,7 @@ export class RedisRateLimiter implements RateLimiter {
 
         const incremented = await this.client.incrby(key, amount);
 
-        if (incremented === 1) {
+        if (incremented === amount) {
             const ttl = ttlForRL(ratelimit);
             await this.client.expire(key, ttl);
         }
