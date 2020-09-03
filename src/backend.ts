@@ -81,6 +81,9 @@ export class SMTPBackend {
 
                     debug(`ratelimit (${desc}) is exceeded`);
 
+                    // noinspection JSIgnoredPromiseFromCall,ES6MissingAwait
+                    this.recorder.observeRejectedRatelimitExceeded(policy, mailFrom.address, rcptTo.map(r => r.address));
+
                     callback(new Error(`rate limit (${desc}) exceeded`));
                     return;
                 }
