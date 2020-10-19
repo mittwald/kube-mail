@@ -7,7 +7,7 @@ on:
 
 env:
   IMAGE_NAME: quay.io/mittwald/kube-mail
-  REGISTRY_URL: quay.io/mittwald
+  REGISTRY_URL: quay.io
 
 jobs:
   deploytagged:
@@ -16,7 +16,7 @@ jobs:
     if: github.repository == 'mittwald/kube-mail'
     steps:
       - name: Docker registry login
-        run: docker login -u "${{ secrets.dockerLoginUsername }}" -p "${{ secrets.dockerLoginPassword }}" "${REGISTRY_URL}"
+        run: docker login -u "${{ secrets.QUAY_IO_USER }}" -p "${{ secrets.QUAY_IO_TOKEN }}" "${REGISTRY_URL}"
 
       - uses: actions/checkout@v2
 
