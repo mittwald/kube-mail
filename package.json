@@ -29,7 +29,6 @@
     "start": "node dist/server.js",
     "test": "jest tests/unit",
     "test:integration": "jest tests/integration",
-    "generate": "ts-node scripts/gen-crd.ts"
   },
   "dependencies": {
     "@mittwald/kubernetes": "^3.2.2",
