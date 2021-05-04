@@ -22,6 +22,7 @@ type SMTPServerStatus struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:path=smtpservers,scope=Namespaced,shortName=smtpserver
+// +kubebuilder:printcolumn:name="SMTP Server",type="string",JSONPath=".spec.server",description="SMTP server hostname"
 
 // SMTPServer is the Schema for the smtpserver API
 type SMTPServer struct {

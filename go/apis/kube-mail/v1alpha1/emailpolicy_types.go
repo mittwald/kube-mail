@@ -48,6 +48,8 @@ type EmailPolicyStatus struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:path=emailpolicies,scope=Namespaced,shortName=emailpolicy
+// +kubebuilder:printcolumn:name="default",type="boolean",JSONPath=".spec.default",description="describes if this is the default policy"
+// +kubebuilder:printcolumn:name="SMTP Server",type="string",JSONPath=".spec.sink.smtp.server",description="which SMTP server mails are forwarded to"
 
 // EmailPolicy is the Schema for the emailpolicy API
 type EmailPolicy struct {

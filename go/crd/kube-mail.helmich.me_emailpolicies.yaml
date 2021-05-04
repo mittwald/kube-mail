@@ -18,7 +18,16 @@ spec:
     singular: emailpolicy
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - additionalPrinterColumns:
+    - description: describes if this is the default policy
+      jsonPath: .spec.default
+      name: default
+      type: boolean
+    - description: which SMTP server mails are forwarded to
+      jsonPath: .spec.sink.smtp.server
+      name: SMTP Server
+      type: string
+    name: v1alpha1
     schema:
       openAPIV3Schema:
         description: EmailPolicy is the Schema for the emailpolicy API
