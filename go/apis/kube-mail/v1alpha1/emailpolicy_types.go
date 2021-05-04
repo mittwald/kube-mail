@@ -1,18 +1,28 @@
 package v1alpha1
 
 import (
-	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+type ObjectReference struct {
+	Name string `json:"name"`
+	// +optional
+	Namespace string `json:"namespace,omitempty"`
+}
+
 type EmailPolicySMTPSink struct {
-	Server      v1.ObjectReference `json:"server"`
-	Credentials v1.ObjectReference `json:"credentials"`
+	Server ObjectReference `json:"server"`
+
+	// +optional
+	Credentials ObjectReference `json:"credentials,omitempty"`
 }
 
 type EmailPolicyRateLimiting struct {
-	Maximum int    `json:"maximum"`
-	Period  string `json:"period"`
+	Maximum int `json:"maximum"`
+
+	// +optional
+	// +kubebuilder:validation:Enum=hour;minute
+	Period string `json:"period,omitempty" ts_type:"policyPeriod"`
 }
 
 type EmailPolicySink struct {
@@ -20,10 +30,16 @@ type EmailPolicySink struct {
 }
 
 type EmailPolicySpec struct {
-	Default      bool                    `json:"default"`
-	PodSelector  metav1.LabelSelector    `json:"podSelector"`
-	RateLimiting EmailPolicyRateLimiting `json:"ratelimiting"`
-	Sink         EmailPolicySink         `json:"sink"`
+	// +optional
+	Default bool `json:"default,omitempty"`
+
+	// +optional
+	PodSelector metav1.LabelSelector `json:"podSelector,omitempty" ts_type:"LabelSelector"`
+
+	// +optional
+	RateLimiting EmailPolicyRateLimiting `json:"ratelimiting,omitempty"`
+
+	Sink EmailPolicySink `json:"sink"`
 }
 
 type EmailPolicyStatus struct {

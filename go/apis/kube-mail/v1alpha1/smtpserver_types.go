@@ -3,10 +3,17 @@ package v1alpha1
 import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 type SMTPServerSpec struct {
-	Server   string `json:"server"`
-	Port     int    `json:"port"`
-	TLS      bool   `json:"tls"`
-	AuthType string `json:"authType"`
+	Server string `json:"server"`
+
+	// +optional
+	Port int `json:"port,omitempty"`
+
+	// +optional
+	TLS bool `json:"tls,omitempty"`
+
+	// +optional
+	// +kubebuilder:validation:Enum=PLAIN;LOGIN;CRAM-MD5;SCRAM-SHA-1
+	AuthType string `json:"authType,omitempty" ts_type:"authType"`
 }
 
 type SMTPServerStatus struct {
