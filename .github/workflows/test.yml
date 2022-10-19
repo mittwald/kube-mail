@@ -104,4 +104,10 @@ jobs:
           kubectl port-forward upstream 8080:8080 &
           kubectl port-forward $POD_NAME 9100:9100 &
 
-          npm run test:integration
+          if ! npm run test:integration ; then
+            kubectl get pods
+            kubectl describe pod $POD_NAME
+            kubectl logs $POD_NAME
+          
+            exit 1
+          fi
