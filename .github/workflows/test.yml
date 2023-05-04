@@ -101,7 +101,7 @@ jobs:
 
           kubectl wait pod/upstream --for=condition=ready
           kubectl wait pod/$POD_NAME --for=condition=ready
-          kubectl wait pod/$REDIS_POD_NAME --for=condition=ready
+          kubectl wait pod/$REDIS_POD_NAME --for=condition=ready --timeout=120s
 
           kubectl port-forward upstream 8080:8080 &
           kubectl port-forward $POD_NAME 9100:9100 &
