@@ -1,6 +1,6 @@
 import {Application} from "express";
 import * as express from "express";
-import {register} from "prom-client";
+import { register } from "prom-client";
 import { Server } from "http";
 
 const debug = require("debug")("kubemail:monitoring");
@@ -21,6 +21,7 @@ export class MonitoringServer {
         });
 
         this.app.get("/metrics", (req, res) => {
+            res.header("Content-Type", register.contentType);
             res.send(register.metrics());
         })
     }
